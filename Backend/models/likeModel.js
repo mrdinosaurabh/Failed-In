@@ -17,4 +17,10 @@ const LikeSchema = new mongoose.Schema({
     },
 });
 
+//middleware to populate username and image while fetching reactions(to be displayed on frontend)
+LikeSchema.pre('find', async function(next) {
+    this.populate('userId', ['username', 'image']);
+    next();
+});
+
 module.exports = mongoose.model("Like", LikeSchema);
