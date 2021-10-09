@@ -1,5 +1,6 @@
 const Post = require("../models/postModel");
 const Comment = require("../models/commentModel");
+const Like = require("../models/likeModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
@@ -95,6 +96,18 @@ exports.getAllPosts = catchAsync(async(req, res, next) => {
         .paginate();
 
     let posts = await dbFeatures.dbQuery;
+
+    //See if the user who has asked for the post has liked of not by adding isLiked field
+    // for(var postIndex in posts) {
+    //     let post = posts[postIndex];
+    //     const likes = await Like.find({postId : post._id,userId : req.user._id}); 
+    //     if(likes.length != 0) {
+    //         posts[postIndex] = {...posts[postIndex],isLiked : true};
+    //     }
+    //     else {
+    //         posts[postIndex] = {...posts[postIndex],isLiked : false};
+    //     }
+    // }
 
     res.status(200).json({
         status: 'success',
