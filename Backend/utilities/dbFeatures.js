@@ -9,7 +9,7 @@ class DBFeatures {
         let queryObj = {...this.queryObject };
 
         // Removing the queries which cannot be applied to mongodb find object
-        const excludedQueries = ['page', 'limit', 'sort', 'fields'];
+        const excludedQueries = ['page', 'limit', 'sort', 'fields', 'searchFor', 'matchWith'];
         excludedQueries.forEach((query) => {
             delete queryObj[query];
         });
@@ -60,6 +60,21 @@ class DBFeatures {
         let skip = (page - 1) * limit;
 
         this.dbQuery = this.dbQuery.skip(skip).limit(limit);
+
+        return this;
+    }
+
+    search() {
+
+        if (this.queryObject.searchFor && this.queryObject.matchWith) {
+            let field = this.queryObject.searchFor;
+            let value = this.queryObject.matchWith;
+
+            let obj = {};
+            obj[field] = { $regex: new RegExp(value + '.*') };
+
+            this.dbQuery = this.dbQuery.find(obj);
+        }
 
         return this;
     }

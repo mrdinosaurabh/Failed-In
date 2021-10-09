@@ -17,9 +17,14 @@ const serverUrl = `http://${process.env.SERVER_IP}/posts/image/`;
 exports.createAPost = catchAsync(async(req, res, next) => {
 
     const newPost = new Post(req.body);
-    newPost.tags = await newPost.addTags(req.body.tags);
+
+    console.log(req.body.tags);
+
+    newPost.tags = await newPost.addTags(req.body.tags.split(' '));
     newPost.userId = req.user._id;
-    newPost.reportArray = [0,0,0,0];
+    newPost.reportArray = [0, 0, 0, 0];
+
+
 
     //Storing the post image
     if (req.files && req.files.image) {
@@ -50,15 +55,17 @@ exports.updateAPost = catchAsync(async(req, res, next) => {
         return next(new AppError('Post not found!', 404));
     }
 
+    console.log(req.body.tags);
+
     if (req.body.tags) {
-        post.tags = await post.addTags(req.body.tags);
+        post.tags = await post.addTags(req.body.tags.split(' '));
         req.body.tags = post.tags;
     }
 
     // Update only the fields which are provided
-    if(req.body.title != null)
+    if (req.body.title != null)
         post.title = req.body.title;
-    if(req.body.description != null)
+    if (req.body.description != null)
         post.title = req.body.description;
 
     await post.save();
@@ -88,23 +95,23 @@ exports.deleteAPost = catchAsync(async(req, res, next) => {
 
 // Function to get all posts
 exports.getAllPosts = catchAsync(async(req, res, next) => {
-    
+
     const dbFeatures = new DbFeatures(Post.find().lean().select('-likes -reportArray -updatedAt'), req.query)
         .filter()
         .sort()
         .filterFields()
-        .paginate();
+        .paginate()
+        .search();
 
     let posts = await dbFeatures.dbQuery;
 
     //See if the user who has asked for the post has liked of not by adding isLiked field
-    for(var postIndex in posts) {
+    for (var postIndex in posts) {
         let post = posts[postIndex];
-        const like = await Like.findOne({postId : post._id,userId : req.user._id}); 
-        if(like) {
-            posts[postIndex].likeType =  like.type;
-        }
-        else {
+        const like = await Like.findOne({ postId: post._id, userId: req.user._id });
+        if (like) {
+            posts[postIndex].likeType = like.type;
+        } else {
             posts[postIndex].likeType = 'None';
         }
     }
