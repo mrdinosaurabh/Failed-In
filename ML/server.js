@@ -7,6 +7,7 @@ const port = 8800;
 const router = express.Router();
 const offensiveImagesCheck = require('./offensiveImagesCheck');
 const offensiveTextsCheck = require('./offensiveTextsCheck');
+const sentimentAnalysis = require('./sentimentAnalysis');
 const { default: axios } = require('axios');
 let auth = "";
 
@@ -19,6 +20,13 @@ router.get('/image/', async (req,res) => {
 //Setting route for analysing the text which has been sent for analysis
 router.get('/text/', async (req,res) => {
     await offensiveTextsCheck.textAnalysis(res,req.headers.text);
+});
+
+//Setting route for analysing the sentiment of the text sent
+router.get('/sentiment/', async (req,res) => {
+    const sentimentScore = await sentimentAnalysis.processData(req.headers.desc);
+    res.status(200).json({
+        "sentimentScore" : sentimentScore});
 });
 
 app.use('/',router);
