@@ -11,7 +11,7 @@ const path = require('path');
 const { default: axios } = require("axios");
 
 const storageDir = `${__dirname}\\..\\app-data\\post-images\\`;
-const serverUrl = 'http://localhost:8000/posts/image/';
+const serverUrl = `http://${process.env.SERVER_IP}/posts/image/`;
 
 // Function to create a new post
 exports.createAPost = catchAsync(async(req, res, next) => {
@@ -100,12 +100,12 @@ exports.getAllPosts = catchAsync(async(req, res, next) => {
     //See if the user who has asked for the post has liked of not by adding isLiked field
     for(var postIndex in posts) {
         let post = posts[postIndex];
-        const likes = await Like.find({postId : post._id,userId : req.user._id}); 
-        if(likes.length != 0) {
-            posts[postIndex].isLiked =  true;
+        const like = await Like.findOne({postId : post._id,userId : req.user._id}); 
+        if(like) {
+            posts[postIndex].likeType =  like.type;
         }
         else {
-            posts[postIndex].isLiked = false;
+            posts[postIndex].likeType = 'None';
         }
     }
 

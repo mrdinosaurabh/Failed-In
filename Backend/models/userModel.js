@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
     },
     image: {
         type: String,
-        default: 'http://localhost:8000/users/image/none.jpg'
+        default: `http://${process.env.SERVER_IP}/users/image/none.jpg`
     },
     bio: {
         type: String,
