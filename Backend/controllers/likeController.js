@@ -17,7 +17,7 @@ exports.likePost = catchAsync(async(req, res, next) => {
     //Already reaction of this user exists on this post
     if (like) {
         //if user sends the same reaction then dislike it 
-        if (like.type === 'None') {
+        if (likeObj.type === 'None') {
             await Post.updateOne({ _id: req.params.id }, { $pull: { likes: like._id }, $inc: { likeCount: -1 } });
             await Like.findByIdAndDelete(like._id);
             isLiked = false;
