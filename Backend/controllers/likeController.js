@@ -2,7 +2,7 @@ const Like = require('./../models/likeModel');
 const Post = require('./../models/postModel');
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
-const AppError = require('./../utilities/appError');
+
 //Like/Dislike post
 exports.likePost = catchAsync(async(req, res, next) => {
 
@@ -17,7 +17,7 @@ exports.likePost = catchAsync(async(req, res, next) => {
     //Already reaction of this user exists on this post
     if (like) {
         //if user sends the same reaction then dislike it 
-        if (like.type === likeObj.type) {
+        if (like.type === 'None') {
             await Post.updateOne({ _id: req.params.id }, { $pull: { likes: like._id }, $inc: { likeCount: -1 } });
             await Like.findByIdAndDelete(like._id);
             isLiked = false;
@@ -39,12 +39,12 @@ exports.likePost = catchAsync(async(req, res, next) => {
 // Function to get all reactions on a particular post
 exports.getAllLikes = catchAsync(async(req, res, next) => {
 
-    const dbFeatures = new DbFeatures(Like.find({postId : req.params.id}), req.query)
+    const dbFeatures = new DbFeatures(Like.find(), req.query)
         .filter()
         .sort()
         .filterFields()
         .paginate();
-    const likes = await dbFeatures.dbQuery;
+    const likes = await dbFeatures.dbQuery.find({postId : req.params.id});
     res.status(200).json({
         status: 'success',
         data: {
