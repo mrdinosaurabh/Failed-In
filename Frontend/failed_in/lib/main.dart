@@ -1,5 +1,7 @@
+import 'package:failed_in/screens/edit_profile_screen.dart';
 import 'package:failed_in/screens/login_screen.dart';
 import 'package:failed_in/screens/main_screen.dart';
+import 'package:failed_in/screens/notifications_screen.dart';
 import 'package:failed_in/screens/signup_screen.dart';
 import 'package:failed_in/screens/splash_screen.dart';
 import 'package:failed_in/services/storage_service.dart';
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
         Routes.loginScreen: (context) => const LoginScreen(),
         Routes.signupScreen: (context) => const SignupScreen(),
         Routes.mainScreen: (context) => const MainScreen(),
+        Routes.notificationScreen: (context) => const NotificationsScreen(),
+        Routes.editProfileScreen: (context) => const EditProfileScreen(),
       },
     );
   }
