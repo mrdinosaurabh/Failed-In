@@ -71,7 +71,7 @@ class DBFeatures {
             let value = this.queryObject.matchWith;
 
             let obj = {};
-            obj[field] = { $regex: new RegExp(value + '.*') };
+            obj[field] = { $regex: new RegExp(value + '.*'), $options: 'i' };
 
             this.dbQuery = this.dbQuery.find(obj);
         }

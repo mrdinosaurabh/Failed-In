@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const storageDir = `${__dirname}\\..\\app-data\\user-images\\`;
-const serverUrl = `http://${process.env.SERVER_IP}/users/image/`;
+const serverUrl = `${process.env.SERVER_URL}/users/image/`;
 
 // Function to get current logged in user
 exports.getUser = catchAsync(async(req, res, next) => {

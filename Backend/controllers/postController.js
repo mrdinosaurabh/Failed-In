@@ -11,7 +11,7 @@ const path = require('path');
 const { default: axios } = require("axios");
 
 const storageDir = `${__dirname}\\..\\app-data\\post-images\\`;
-const serverUrl = `http://${process.env.SERVER_IP}/posts/image/`;
+const serverUrl = `${process.env.SERVER_URL}/posts/image/`;
 
 // Function to create a new post
 exports.createAPost = catchAsync(async(req, res, next) => {
