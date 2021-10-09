@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Post = require('./../models/postModel');
+const notificationController = require('./../controllers/notificationController');
 
 const LikeSchema = new mongoose.Schema({
     type: {
@@ -15,6 +15,21 @@ const LikeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+});
+
+//middleware to create notification when someone likes a post
+LikeSchema.post('save', async function() {
+
+    await this.populate('postId', ['userId']);
+    if(this.userId.toString() != this.postId.userId._id.toString())
+    {
+        await notificationController.createNotification({
+            type: 'Like',
+            senderId: this.userId,
+            receiverId: this.postId.userId,
+            postId: this.postId
+        });
+    }
 });
 
 //middleware to populate username and image while fetching reactions(to be displayed on frontend)

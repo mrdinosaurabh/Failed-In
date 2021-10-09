@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const notificationController = require('./../controllers/notificationController');
 const router = express.Router();
 
 // Signup request
@@ -28,5 +29,8 @@ router.put('/', authController.protectRoute, userController.updateUser);
 
 // Get information of users
 router.get('/', authController.protectRoute, userController.getAllUsers);
+
+//get all notifications of a user
+router.get("/notification", authController.protectRoute, notificationController.getAllNotification);
 
 module.exports = router;
