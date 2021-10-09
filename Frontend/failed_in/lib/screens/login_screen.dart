@@ -2,6 +2,7 @@ import 'package:failed_in/components/custom_button.dart';
 import 'package:failed_in/components/custom_text_field.dart';
 import 'package:failed_in/components/loading_screen.dart';
 import 'package:failed_in/components/oscillating_widget.dart';
+import 'package:failed_in/services/auth_service.dart';
 import 'package:failed_in/utilities/alert_box.dart';
 import 'package:failed_in/utilities/app_error.dart';
 import 'package:failed_in/utilities/colors.dart';
@@ -174,6 +175,21 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // TODO: Perform login using http request
+    try {
+      await AuthService.loginUser(
+        emailController.text.trim().toLowerCase(),
+        passwordController.text,
+      );
+
+      Navigator.pushReplacementNamed(context, Routes.mainScreen);
+    } on AppError catch (e) {
+      await AlertBox.showErrorDialog(
+        context,
+        AppError(
+          400,
+          e.message,
+        ),
+      );
+    }
   }
 }
