@@ -21,10 +21,10 @@ exports.getUser = catchAsync(async(req, res, next) => {
 // Function to get all user by querying using URL
 exports.getAllUsers = catchAsync(async(req, res, next) => {
     const dbFeatures = new DbFeatures(User.find(), req.query)
-    .filter()
-    .sort()
-    .filterFields()
-    .paginate();
+        .filter()
+        .sort()
+        .filterFields()
+        .paginate();
 
     let users = await dbFeatures.dbQuery;
 
@@ -35,7 +35,7 @@ exports.getAllUsers = catchAsync(async(req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        data: { users:  users }
+        data: { users: users }
     });
 });
 
@@ -43,7 +43,7 @@ exports.getAllUsers = catchAsync(async(req, res, next) => {
 exports.updateUser = catchAsync(async(req, res, next) => {
 
     const user = req.user;
-    
+
     //If user uploads an image, storing it on the server
     if (req.files && req.files.image) {
         try {
@@ -55,16 +55,16 @@ exports.updateUser = catchAsync(async(req, res, next) => {
     }
 
     //If the request for the property is not null, only then change
-    if(req.body.firstName != null) {
+    if (req.body.firstName != null) {
         user.firstName = req.body.firstName;
     }
-    if(req.body.lastName != null) {
+    if (req.body.lastName != null) {
         user.lastName = req.body.lastName;
     }
-    if(req.body.bio != null) {
+    if (req.body.bio != null) {
         user.bio = req.body.bio;
     }
-    if(req.body.image != null) {
+    if (req.body.image != null) {
         user.image = req.body.image;
     }
 
