@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const upload = require('express-fileupload');
 
 const app = express();
 
@@ -10,6 +11,9 @@ app.use(morgan('dev'));
 
 // Middleware to read the body of http post request
 app.use(express.json());
+
+// Middleware to read the files provided with body
+app.use(upload());
 
 //specifying routes
 app.use('/users', userRoutes);
