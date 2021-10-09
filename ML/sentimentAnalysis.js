@@ -61,7 +61,7 @@ exports.processData = async (desc) => {
 
     //cleaning text i.e removing url and stuff
     desc = await desc.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-    // desc = await desc.replace(/[^a-z0-9 .!]/gi,'');
+    desc = await desc.replace(/[^a-z0-9 .!]/gi,'');
     // desc = desc.replace(/./g, " ");
     const sentiment_score = await getSentimentScore(desc);
     let desc_sentiment = '';

@@ -6,14 +6,14 @@ const catchAsync = require('./../utilities/catchAsync');
 
 // Function to add a comment
 exports.createAComment = catchAsync(async(req, res, next) => {
-
+    
     const newComment = await Comment.create({
         userId: req.user._id,
         postId: req.params.id,
         description: req.body.description,
-        isRepliable: req.body.isRepliable,
+        isRepliable: req.body.parentId==null ? true : false,
         parentId: req.body.parentId,
-        reportArray : [0,0,0,0,0]
+        reportArray : [0,0]
     });
 
     await Post.updateOne({ _id: newComment.postId }, { $inc: { commentCount: 1 } });

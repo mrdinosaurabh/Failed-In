@@ -19,7 +19,7 @@ exports.createAPost = catchAsync(async(req, res, next) => {
     const newPost = new Post(req.body);
     newPost.tags = await newPost.addTags(req.body.tags);
     newPost.userId = req.user._id;
-    newPost.reportArray = [0,0,0,0,0];
+    newPost.reportArray = [0,0,0,0];
 
     //Storing the post image
     if (req.files && req.files.image) {
@@ -88,8 +88,8 @@ exports.deleteAPost = catchAsync(async(req, res, next) => {
 
 // Function to get all posts
 exports.getAllPosts = catchAsync(async(req, res, next) => {
-
-    const dbFeatures = new DbFeatures(Post.find().lean(), req.query)
+    
+    const dbFeatures = new DbFeatures(Post.find().lean().select('-likes -reportArray -updatedAt'), req.query)
         .filter()
         .sort()
         .filterFields()

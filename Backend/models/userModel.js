@@ -34,7 +34,8 @@ const userSchema = mongoose.Schema({
         unique: true
     },
     image: {
-        type: String
+        type: String,
+        default: 'http://localhost:8000/users/image/none.jpg'
     },
     bio: {
         type: String,
