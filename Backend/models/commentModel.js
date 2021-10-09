@@ -1,0 +1,38 @@
+const mongoose = require("mongoose");
+const Post = require("../models/postModel");
+
+const CommentSchema = new mongoose.Schema({
+    postId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    parentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null,
+    },
+    isRepliable: {
+        type: Boolean,
+        required: true,
+    },
+    description: {
+        type: String,
+        maxlength: [100, 'Maximum length of a comment can be 100.'],
+    },
+    reportArray: {
+        type: Array,
+        'default': [0,0,0,0,0]
+    },
+}, { timestamps: true });
+
+// Populating username and image to show it in frontend while displaying a comment
+CommentSchema.pre('find', async function(next) {
+    this.populate('userId', ['username', 'image']);
+    next();
+});
+
+module.exports = mongoose.model("Comment", CommentSchema);

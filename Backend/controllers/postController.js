@@ -1,4 +1,5 @@
 const Post = require("../models/postModel");
+const Comment = require("../models/commentModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
@@ -75,7 +76,7 @@ exports.deleteAPost = catchAsync(async(req, res, next) => {
     if (!post) {
         return next(new AppError('Post not found!', 404));
     }
-
+    await Comment.deleteMany({ postId: post._id });
     await post.deleteOne();
     res.status(200).json({
         status: 'success',

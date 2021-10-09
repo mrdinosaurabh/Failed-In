@@ -2,6 +2,7 @@ const router = require("express").Router();
 const postController = require('./../controllers/postController');
 const authController = require('./../controllers/authController');
 const likeController = require('./../controllers/likeController');
+const commentController = require('./../controllers/commentController');
 
 //create a post
 router.post("/", authController.protectRoute, postController.createAPost);
@@ -23,5 +24,20 @@ router.post('/:id/like', authController.protectRoute, likeController.likePost);
 
 //fetch all reactions on a particular post
 router.get('/like', authController.protectRoute, likeController.getAllLikes)
+
+//Create a comment on a post with postid = :id
+router.post('/:id/comment', authController.protectRoute, commentController.createAComment);
+
+//Update a comment with :commendid on a post with postid = :id 
+router.put('/:id/comment/:commentid', authController.protectRoute, commentController.updateAComment);
+
+//Get comments with query on a post with postid = :id
+router.get("/:id/comment", authController.protectRoute, commentController.getAllPostComments);
+
+//Get all replies to a comment with :commendid on a post with postid = :id 
+router.get("/:id/comment/:commentid", authController.protectRoute, commentController.getAllReplies);
+
+//Delete a comment with :commendid on a post with postid = :id 
+router.delete("/:id/comment/:commentid", authController.protectRoute, commentController.deleteAComment);
 
 module.exports = router;
