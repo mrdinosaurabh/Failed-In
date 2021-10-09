@@ -87,13 +87,13 @@ exports.getAllPostComments = catchAsync(async(req, res, next) => {
 // Function to get all replies on a comment
 exports.getAllReplies = catchAsync(async(req, res, next) => {
 
-    const dbFeatures = new DbFeatures(Comment.find({ parentId: req.params.commentid }), req.query)
+    const dbFeatures = new DbFeatures(Comment.find(), req.query)
         .filter()
         .sort()
         .filterFields()
         .paginate();
 
-    const commentReplies = await dbFeatures.dbQuery;
+    const commentReplies = await dbFeatures.dbQuery.find({ parentId: req.params.commentid});
 
     res.status(200).json({
         status: 'success',
