@@ -25,7 +25,7 @@ router.get("/image/:fileName", authController.protectRoute, postController.getPo
 router.post('/:id/like', authController.protectRoute, likeController.likePost);
 
 //fetch all reactions on a particular post
-router.get('/like', authController.protectRoute, likeController.getAllLikes)
+router.get('/:id/like', authController.protectRoute, likeController.getAllLikes)
 
 //Create a comment on a post with postid = :id
 router.post('/:id/comment', authController.protectRoute, commentController.createAComment);

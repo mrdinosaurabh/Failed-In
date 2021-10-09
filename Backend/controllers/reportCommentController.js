@@ -4,7 +4,7 @@ const catchAsync = require('./../utilities/catchAsync');
 const { default: axios } = require("axios");
 const NotificationController = require('./../controllers/notificationController');
 const stringSimilarity = require('string-similarity');
-
+const AppError = require('./../utilities/appError');
 exports.reportAComment = catchAsync(async(req, res, next) => {
     
     const type = req.body.type;
