@@ -33,6 +33,14 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag'
+    }],
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Like'
+    }],
     likeCount: {
         type: Number,
         default: 0
@@ -43,6 +51,13 @@ const postSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-
+postSchema.methods.addTags = async(tags) => {
+    var tagIds = [];
+    for (var tagIndex in tags) {
+        var tagId = await tagController.getTagId(tags[tagIndex]);
+        tagIds.push(tagId);
+    }
+    return tagIds;
+};
 
 module.exports = mongoose.model("Post", postSchema);

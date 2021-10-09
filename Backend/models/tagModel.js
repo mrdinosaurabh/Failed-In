@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 //Schema for tags
 const tagSchema = mongoose.Schema({
     name: {
