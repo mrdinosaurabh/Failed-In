@@ -3,6 +3,8 @@ const postController = require('./../controllers/postController');
 const authController = require('./../controllers/authController');
 const likeController = require('./../controllers/likeController');
 const commentController = require('./../controllers/commentController');
+const reportCommentController = require('./../controllers/reportCommentController');
+const reportController = require('./../controllers/reportController');
 
 //create a post
 router.post("/", authController.protectRoute, postController.createAPost);
@@ -23,7 +25,7 @@ router.get("/image/:fileName", authController.protectRoute, postController.getPo
 router.post('/:id/like', authController.protectRoute, likeController.likePost);
 
 //fetch all reactions on a particular post
-router.get('/like', authController.protectRoute, likeController.getAllLikes)
+router.get('/:id/like', authController.protectRoute, likeController.getAllLikes)
 
 //Create a comment on a post with postid = :id
 router.post('/:id/comment', authController.protectRoute, commentController.createAComment);
@@ -39,5 +41,11 @@ router.get("/:id/comment/:commentid", authController.protectRoute, commentContro
 
 //Delete a comment with :commendid on a post with postid = :id 
 router.delete("/:id/comment/:commentid", authController.protectRoute, commentController.deleteAComment);
+
+//Report a comment with :commentid on a post with postid = :id 
+router.post("/:id/comment/:commentid/report/", authController.protectRoute, reportCommentController.reportAComment);
+
+//Report a post with :id
+router.post('/:id/report', authController.protectRoute, reportController.reportPost);
 
 module.exports = router;

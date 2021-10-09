@@ -2,6 +2,7 @@ const catchAsync = require('./../utilities/catchAsync');
 const User = require('./../models/userModel');
 const fileController = require('./../controllers/fileController');
 const DbFeatures = require('./../utilities/dbFeatures');
+const AppError = require('./../utilities/appError');
 
 const fs = require('fs');
 const path = require('path');

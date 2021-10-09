@@ -1,5 +1,6 @@
 const Post = require("../models/postModel");
 const Comment = require("../models/commentModel");
+const Like = require("../models/likeModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
@@ -88,13 +89,25 @@ exports.deleteAPost = catchAsync(async(req, res, next) => {
 // Function to get all posts
 exports.getAllPosts = catchAsync(async(req, res, next) => {
 
-    const dbFeatures = new DbFeatures(Post.find(), req.query)
+    const dbFeatures = new DbFeatures(Post.find().lean(), req.query)
         .filter()
         .sort()
         .filterFields()
         .paginate();
 
     let posts = await dbFeatures.dbQuery;
+
+    //See if the user who has asked for the post has liked of not by adding isLiked field
+    for(var postIndex in posts) {
+        let post = posts[postIndex];
+        const likes = await Like.find({postId : post._id,userId : req.user._id}); 
+        if(likes.length != 0) {
+            posts[postIndex].isLiked =  true;
+        }
+        else {
+            posts[postIndex].isLiked = false;
+        }
+    }
 
     res.status(200).json({
         status: 'success',

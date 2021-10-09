@@ -39,7 +39,8 @@ const postSchema = new mongoose.Schema({
     }],
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Like'
+        ref: 'Like',
+        select: false
     }],
     likeCount: {
         type: Number,
@@ -59,5 +60,12 @@ postSchema.methods.addTags = async(tags) => {
     }
     return tagIds;
 };
+//populate username and userID
+postSchema.pre('find', async function(next) {
+
+    this.populate('tags', ['name']);
+    this.populate('userId', ['username', 'image']);
+    next();
+});
 
 module.exports = mongoose.model("Post", postSchema);

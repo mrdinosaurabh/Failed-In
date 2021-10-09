@@ -1,5 +1,5 @@
 const Tag = require('./../models/tagModel');
-
+const AppError = require('./../utilities/appError');
 exports.getTagId = async(tagName) => {
 
     let tag = await Tag.findOne({ name: tagName });

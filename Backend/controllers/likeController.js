@@ -2,7 +2,7 @@ const Like = require('./../models/likeModel');
 const Post = require('./../models/postModel');
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
-
+const AppError = require('./../utilities/appError');
 //Like/Dislike post
 exports.likePost = catchAsync(async(req, res, next) => {
 
@@ -39,7 +39,7 @@ exports.likePost = catchAsync(async(req, res, next) => {
 // Function to get all reactions on a particular post
 exports.getAllLikes = catchAsync(async(req, res, next) => {
 
-    const dbFeatures = new DbFeatures(Like.find(), req.query)
+    const dbFeatures = new DbFeatures(Like.find({postId : req.params.id}), req.query)
         .filter()
         .sort()
         .filterFields()
