@@ -2,6 +2,8 @@ import 'package:failed_in/components/custom_button.dart';
 import 'package:failed_in/components/custom_text_field.dart';
 import 'package:failed_in/components/loading_screen.dart';
 import 'package:failed_in/components/oscillating_widget.dart';
+import 'package:failed_in/models/user_model.dart';
+import 'package:failed_in/services/auth_service.dart';
 import 'package:failed_in/utilities/alert_box.dart';
 import 'package:failed_in/utilities/app_error.dart';
 import 'package:failed_in/utilities/colors.dart';
@@ -243,6 +245,36 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    // TODO: Perform signup using http request
+    try {
+      List<String> names = nameController.text.trim().split(' ');
+      String firstName = names[0];
+      names.removeAt(0);
+      String lastName = names.join(' ');
+
+      User user = User(
+        firstName: firstName,
+        lastName: lastName,
+        username: usernameController.text.trim().toLowerCase(),
+        email: emailController.text.trim().toLowerCase(),
+        password: passwordController.text,
+      );
+
+      await AuthService.signupUser(user);
+
+      await AlertBox.showSuccessDialog(
+        context,
+        'Registration successful! Please verify your email address.',
+      );
+
+      Navigator.pushReplacementNamed(context, Routes.loginScreen);
+    } on AppError catch (e) {
+      await AlertBox.showErrorDialog(
+        context,
+        AppError(
+          400,
+          e.message,
+        ),
+      );
+    }
   }
 }
