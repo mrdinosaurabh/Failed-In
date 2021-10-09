@@ -13,6 +13,7 @@
     "@tensorflow/tfjs": "^3.9.0",
     "@tensorflow/tfjs-node": "^3.9.0",
     "axios": "^0.22.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "node-sentiment": "https://github.com/martinrue/node-sentiment/tarball/master",
     "nodemon": "^2.0.13",
