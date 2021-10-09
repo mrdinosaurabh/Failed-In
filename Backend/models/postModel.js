@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema({
     },
     isUserPublic: {
         type: Boolean,
-        default: false
+        default: true
     },
     commentCount: {
         type: Number,
@@ -39,8 +39,7 @@ const postSchema = new mongoose.Schema({
     }],
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Like',
-        select: false
+        ref: 'Like'
     }],
     likeCount: {
         type: Number,
@@ -48,7 +47,7 @@ const postSchema = new mongoose.Schema({
     },
     reportArray: {
         type: Array,
-        'default': [0,0,0,0,0]
+        'default': [0,0,0,0]
     },
 }, { timestamps: true });
 

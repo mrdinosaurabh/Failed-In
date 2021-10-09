@@ -6,14 +6,14 @@ const catchAsync = require('./../utilities/catchAsync');
 
 // Function to add a comment
 exports.createAComment = catchAsync(async(req, res, next) => {
-
+    
     const newComment = await Comment.create({
         userId: req.user._id,
         postId: req.params.id,
         description: req.body.description,
-        isRepliable: req.body.isRepliable,
+        isRepliable: req.body.parentId==null ? true : false,
         parentId: req.body.parentId,
-        reportArray : [0,0,0,0,0]
+        reportArray : [0,0]
     });
 
     await Post.updateOne({ _id: newComment.postId }, { $inc: { commentCount: 1 } });
@@ -87,13 +87,13 @@ exports.getAllPostComments = catchAsync(async(req, res, next) => {
 // Function to get all replies on a comment
 exports.getAllReplies = catchAsync(async(req, res, next) => {
 
-    const dbFeatures = new DbFeatures(Comment.find({ parentId: req.params.commentid }), req.query)
+    const dbFeatures = new DbFeatures(Comment.find(), req.query)
         .filter()
         .sort()
         .filterFields()
         .paginate();
 
-    const commentReplies = await dbFeatures.dbQuery;
+    const commentReplies = await dbFeatures.dbQuery.find({ parentId: req.params.commentid});
 
     res.status(200).json({
         status: 'success',

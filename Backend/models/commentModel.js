@@ -17,8 +17,7 @@ const CommentSchema = new mongoose.Schema({
         default: null,
     },
     isRepliable: {
-        type: Boolean,
-        required: true,
+        type: Boolean
     },
     description: {
         type: String,
@@ -26,7 +25,7 @@ const CommentSchema = new mongoose.Schema({
     },
     reportArray: {
         type: Array,
-        'default': [0,0,0,0,0]
+        'default': [0,0]
     },
 }, { timestamps: true });
 

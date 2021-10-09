@@ -12,7 +12,7 @@ exports.imageAnalysis = async (img,auth) => {
     url: img,
     responseType : 'arraybuffer',
     headers: {
-      'authorization' : `Bearer ${auth}`,
+      'authorization' : auth
     }
   });
 
