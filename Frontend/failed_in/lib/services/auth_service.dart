@@ -75,4 +75,35 @@ class AuthService {
       throw AppError(response.statusCode, responseBody['message']);
     }
   }
+
+  static Future<void> loadUserData(String token) async {
+    var url = Uri.parse(serverUrl + '/users/me');
+
+    var requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token',
+    };
+
+    var response = await http.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    var responseBody = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      UserApi.setData(
+        id: responseBody['data']['user']['_id'],
+        email: responseBody['data']['user']['email'],
+        firstName: responseBody['data']['user']['firstName'],
+        lastName: responseBody['data']['user']['lastName'],
+        username: responseBody['data']['user']['username'],
+        image: responseBody['data']['user']['image'],
+        bio: responseBody['data']['user']['bio'],
+        token: token,
+      );
+    } else {
+      throw AppError(response.statusCode, responseBody['message']);
+    }
+  }
 }

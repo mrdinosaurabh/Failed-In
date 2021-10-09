@@ -1,3 +1,6 @@
+import 'package:failed_in/services/auth_service.dart';
+import 'package:failed_in/services/storage_service.dart';
+import 'package:failed_in/utilities/app_error.dart';
 import 'package:failed_in/utilities/colors.dart';
 import 'package:failed_in/utilities/routes.dart';
 import 'package:failed_in/utilities/spacing.dart';
@@ -46,10 +49,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> loadUserInfo() async {
-    await Future.delayed(const Duration(milliseconds: 3000));
-
-    Navigator.pushReplacementNamed(context, Routes.loginScreen);
-
-    // TODO: Check login status and load user data
+    String token = await StorageService.fetchJWT();
+    if (token.isEmpty) {
+      Navigator.pushReplacementNamed(context, Routes.loginScreen);
+    } else {
+      try {
+        await AuthService.loadUserData(token);
+        Navigator.pushReplacementNamed(context, Routes.mainScreen);
+      } on AppError catch (e) {
+        Navigator.pushReplacementNamed(context, Routes.loginScreen);
+      }
+    }
   }
 }
