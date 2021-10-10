@@ -1,12 +1,10 @@
 const Post = require("../models/postModel");
 const Comment = require("../models/commentModel");
 const Like = require("../models/likeModel");
-const Tag = require("../models/tagModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
 const fileController = require('./../controllers/fileController');
-
 const fs = require('fs');
 const path = require('path');
 const { default: axios } = require("axios");
@@ -20,13 +18,12 @@ exports.createAPost = catchAsync(async(req, res, next) => {
     const newPost = new Post(req.body);
 
     console.log(req.body.tags);
-
-    newPost.tags = await newPost.addTags(req.body.tags.split(' '));
+    if(req.body.tags)
+    {
+        newPost.tags = await newPost.addTags(req.body.tags.split(' '));
+    }
     newPost.userId = req.user._id;
-    newPost.reportArray = [0, 0, 0, 0];
-
-
-
+  
     //Storing the post image
     if (req.files && req.files.image) {
         try {
@@ -157,14 +154,24 @@ exports.getRecommendedPosts = catchAsync(async(req, res, next) => {
         { $unwind: "$post.tags" },
         { $sortByCount: "$post.tags" }
         
-     ])
-     
-
-    console.log(posts);
+    ])
+    let tagId = [];
+    for( let index=0; index < posts.length && index < 5; index++)
+    {
+        tagId.push(posts[index]._id);
+        
+    }
+    const dbFeatures = new DbFeatures(Post.find().lean().select('-likes -reportArray -updatedAt'), req.query)
+        .filter()
+        .sort()
+        .filterFields()
+        .paginate()
+        .search();
+    let recommendedPosts = await dbFeatures.dbQuery.find({ tags: { $elemMatch : { $in : tagId }} });
     res.status(200).json({
         status: 'success',
         data: {
-            posts: posts
+            posts: recommendedPosts
         }
     });
 });

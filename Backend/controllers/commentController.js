@@ -13,7 +13,6 @@ exports.createAComment = catchAsync(async(req, res, next) => {
         description: req.body.description,
         isRepliable: req.body.parentId==null ? true : false,
         parentId: req.body.parentId,
-        reportArray : [0,0]
     });
 
     await Post.updateOne({ _id: newComment.postId }, { $inc: { commentCount: 1 } });

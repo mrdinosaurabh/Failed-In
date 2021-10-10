@@ -1,6 +1,5 @@
 const Notification = require('./../models/notificationModel');
 const DbFeatures = require('./../utilities/dbFeatures');
-const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 
 //create a notification!
