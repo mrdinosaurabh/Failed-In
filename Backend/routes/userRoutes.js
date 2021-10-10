@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/signup', authController.signUp);
 
 // Email verification
-router.post('/verifyEmail/:verificationToken', authController.verifyEmail);
+router.get('/verifyEmail/:verificationToken/:id', authController.verifyEmail);
 
 // Login request
 router.post('/login', authController.login);
@@ -17,7 +17,7 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 
 // Reset password request
-router.post('/resetPassword/:passwordResetToken', authController.resetPassword);
+router.get('/resetPassword/:passwordResetToken/:id', authController.resetPassword);
 
 // To fetch user info using bearer token
 router.get('/me', authController.protectRoute, userController.getUser);

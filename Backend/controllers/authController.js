@@ -35,8 +35,8 @@ exports.signUp = catchAsync(async(req, res, next) => {
     const newUser = await User.create(req.body);
 
     // Create a verification url
-    const verificationUrl = `${req.protocol}://${req.get('host')}/users/verifyEmail/${emailVerificationToken}`;
-
+    const verificationUrl = `${req.protocol}://${req.get('host')}/users/verifyEmail/${emailVerificationToken}/${newUser._id}`;
+    console.log(verificationUrl);
     // TODO: Replace text message with an HTML form
     // Create the message body to be sent via email
     const message = `Post on this url to verify your email.\n${verificationUrl}`;
@@ -70,10 +70,11 @@ exports.verifyEmail = catchAsync(async(req, res, next) => {
 
     // Obtain the verification token from the url
     const verificationToken = req.params.verificationToken;
+    const id = req.params.id;
 
     // Search for user with valid verification token and email in database
     const user = await User.findOne({
-        email: req.body.email,
+        _id: id,
         emailVerificationExpiresAt: { $gt: Date.now() },
         emailVerificationToken: verificationToken
     });
@@ -124,12 +125,12 @@ exports.login = catchAsync(async(req, res, next) => {
         // Save the token and expire time in request body
         user.emailVerificationToken = emailVerificationToken;
         user.emailVerificationExpiresAt = Date.now() + 10 * 60 * 1000;
-
+        
         //Save changes to db
         await user.save();
 
         // Create a verification url
-        const verificationUrl = `${req.protocol}://${req.get('host')}/users/verifyEmail/${emailVerificationToken}`;
+        const verificationUrl = `${req.protocol}://${req.get('host')}/users/verifyEmail/${emailVerificationToken}/${user._id}`;
 
         // Create the message body to be sent via email
         // TODO: Replace text message by HTML Form
@@ -179,8 +180,8 @@ exports.forgotPassword = catchAsync(async(req, res, next) => {
     const passwordResetToken = user.generatePasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${req.protocol}://${req.get('host')}/users/resetPassword/${passwordResetToken}`;
-
+    const resetUrl = `${req.protocol}://${req.get('host')}/users/resetPassword/${passwordResetToken}/${user._id}`;
+    
     // TODO: Replace text message with HTML form
     const message = `Post on this url to reset your password.\n${resetUrl}`;
 
@@ -212,9 +213,9 @@ exports.forgotPassword = catchAsync(async(req, res, next) => {
 exports.resetPassword = catchAsync(async(req, res, next) => {
 
     const resetToken = crypto.createHash('sha256').update(req.params.passwordResetToken).digest('hex');
-
+    const id = req.params.id;
     const user = await User.findOne({
-        email: req.body.email,
+        _id: id,
         passwordResetToken: resetToken,
         passwordResetExpiresAt: { $gt: Date.now() }
     });
