@@ -1,6 +1,7 @@
 const Post = require("../models/postModel");
 const Comment = require("../models/commentModel");
 const Like = require("../models/likeModel");
+const Tag = require("../models/tagModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
 const DbFeatures = require('./../utilities/dbFeatures');
@@ -137,4 +138,33 @@ exports.getPostImage = catchAsync(async(req, res, next) => {
         }
     });
 
+});
+
+exports.getRecommendedPosts = catchAsync(async(req, res, next) => {
+
+    
+    let posts = await Like.aggregate([
+        { $match: { userId: req.user._id } },
+        { $lookup: {from: 'posts', localField: 'postId', foreignField: '_id', as: 'post'}},
+        { $project: { post: 1, _id:0} },
+        { $unionWith: { coll: 'comments', pipeline: [ 
+            { $match: { userId: req.user._id } },
+            { $lookup: {from: 'posts', localField: 'postId', foreignField: '_id', as: 'post'}},
+            { $project: { post: 1, _id:0} },
+
+        ]} },
+        { $unwind: "$post" },
+        { $unwind: "$post.tags" },
+        { $sortByCount: "$post.tags" }
+        
+     ])
+     
+
+    console.log(posts);
+    res.status(200).json({
+        status: 'success',
+        data: {
+            posts: posts
+        }
+    });
 });

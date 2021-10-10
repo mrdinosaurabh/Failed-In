@@ -18,6 +18,9 @@ router.delete("/:id", authController.protectRoute, postController.deleteAPost);
 //Get all post
 router.get("/", authController.protectRoute, postController.getAllPosts);
 
+//Get recommended post
+router.get("/recommended", authController.protectRoute, postController.getRecommendedPosts);
+
 //Get post image
 router.get("/image/:fileName", authController.protectRoute, postController.getPostImage);
 
