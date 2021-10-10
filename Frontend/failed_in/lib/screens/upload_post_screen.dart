@@ -65,120 +65,131 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
           centerTitle: true,
         ),
         backgroundColor: widget.color,
-        body:
-            CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ClipPath(
-                  clipper: WaveClipper(),
-                  child: Container(
-                    height: MediaQuery.of(context).size.width * 0.7,
-                    color: kColorPrimary,
-                    child: const Text(" Flaunt" + "\n" + " Your Failure.",
+        body: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipPath(
+                    clipper: WaveClipper(),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width * 0.7,
+                      color: kColorPrimary,
+                      child: const Text(
+                        " Flaunt" + "\n" + " Your Failure.",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 50,
                           fontWeight: FontWeight.bold,
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Column(children: [
-                      CustomTextField(
-                        controller: titleController,
-                        hintText: 'Enter post title',
-                        maxLines: 1,
-                        errorText: titleError,
-                      ),
-                      kSpace10Ver,
-                      CustomTextField(
-                        controller: descriptionController,
-                        hintText: 'Enter post description',
-                        maxLines: null,
-                        errorText: descriptionError,
-                      ),
-                      kSpace10Ver,
-                      AspectRatio(
-                        aspectRatio: 1,
-                        child: GestureDetector(
-                          onTap: () async {
-                            await _getFromGallery();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: kColorPrimary,
+                  Container(
+                    margin: const EdgeInsets.all(30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        CustomTextField(
+                          controller: titleController,
+                          hintText: 'Enter post title',
+                          maxLines: 1,
+                          errorText: titleError,
+                        ),
+                        kSpace10Ver,
+                        CustomTextField(
+                          controller: descriptionController,
+                          hintText: 'Enter post description',
+                          maxLines: 10,
+                          errorText: descriptionError,
+                        ),
+                        kSpace10Ver,
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await _getFromGallery();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: kColorPrimary,
+                                ),
                               ),
-                            ),
-                            child: Material(
-                              child: Center(
-                                child: imageFile != null
-                                    ? Image(
-                                        image: FileImage(imageFile!),
-                                      )
-                                    : const Icon(
-                                        Icons.add_a_photo_outlined,
-                                      ),
+                              child: Material(
+                                child: Center(
+                                  child: imageFile != null
+                                      ? Image(
+                                          image: FileImage(imageFile!),
+                                        )
+                                      : const Icon(
+                                          Icons.add_a_photo_outlined,
+                                        ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      kSpace30Ver,
-                      TagsInputWidget(
-                        onTagAdded: (tagName) {
-                          tags.add(tagName);
-                        },
-                        onTagRemoved: (tagName) {
-                          tags.remove(tagName);
-                        },
-                      ),
-                      kSpace10Ver,
-                      Wrap(
-                        direction: Axis.horizontal,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        alignment: WrapAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Post anonymously',
-                            style: TextStyle(
-                              fontSize: 16,
+                        kSpace30Ver,
+                        TagsInputWidget(
+                          onTagAdded: (tagName) {
+                            tags.add(tagName);
+                          },
+                          onTagRemoved: (tagName) {
+                            tags.remove(tagName);
+                          },
+                        ),
+                        kSpace10Ver,
+                        Wrap(
+                          direction: Axis.horizontal,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Post anonymously',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          Switch(
-                            value: isUserPublic,
-                            onChanged: (value) {
-                              setState(() {
-                                isUserPublic = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      kSpace10Ver,
-                      CustomButton(
-                        color: kColorPrimary,
-                        onPressed: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await uploadPost();
-                          setState(() {
-                            isLoading = false;
-                          });
-                        },
-                        text: 'Upload post',
-                        textColor: kColorLight,
-                      ),
-                    ]))
-              ],
+                            Switch(
+                              value: isUserPublic,
+                              onChanged: (value) {
+                                setState(() {
+                                  isUserPublic = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        kSpace10Ver,
+                        CustomButton(
+                          color: kColorPrimary,
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await uploadPost();
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          text: 'Upload post',
+                          textColor: kColorLight,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       );
     } else {
       return const LoadingScreen();
@@ -209,31 +220,31 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
 
   /// Pick an image from gallery
   Future<void> _getFromGallery() async {
-    XFile? pickedFile = await picker.pickImage(
+    File? pickedFile = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    await getLostData();
+    //await getLostData();
     if (pickedFile != null) {
       await _cropImage(pickedFile.path);
     }
   }
 
   /// Function to prevent destruction of main activity on android
-  Future<void> getLostData() async {
-    final LostDataResponse response = await picker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.files != null) {
-      for (XFile file in response.files!) {
-        setState(() {
-          imageFile = File(file.path);
-        });
-      }
-    }
-  }
+  // Future<void> getLostData() async {
+  //   final LostDataResponse response = await picker.retrieveLostData();
+  //   if (response.isEmpty) {
+  //     return;
+  //   }
+  //   if (response.files != null) {
+  //     for (XFile file in response.files!) {
+  //       setState(() {
+  //         imageFile = File(file.path);
+  //       });
+  //     }
+  //   }
+  // }
 
   /// Crop the picked image
   Future<void> _cropImage(filePath) async {
@@ -243,7 +254,7 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
       maxHeight: 1080,
       aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
     );
-    await getLostData();
+    //await getLostData();
     if (croppedImage != null) {
       imageFile = croppedImage;
       setState(() {});

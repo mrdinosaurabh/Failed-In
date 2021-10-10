@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:failed_in/components/display_card.dart';
 import 'package:failed_in/components/display_card_small.dart';
 import 'package:failed_in/components/search_bar.dart';
+import 'package:failed_in/screens/bot_screen.dart';
 import 'package:failed_in/utilities/colors.dart';
 import 'package:failed_in/utilities/routes.dart';
 import 'package:failed_in/utilities/spacing.dart';
@@ -96,6 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePageDialogflow()));
+        },
+        child: const Icon(Icons.chat_bubble),
+        backgroundColor: kColorPrimary,
       ),
     );
   }

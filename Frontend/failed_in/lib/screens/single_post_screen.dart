@@ -31,10 +31,12 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
             title: 'Posts',
             appBar: AppBar(),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: PostCard(
-              post: widget.post,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PostCard(
+                post: widget.post,
+              ),
             ),
           ),
         ),

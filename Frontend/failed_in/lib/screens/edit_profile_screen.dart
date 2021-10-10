@@ -143,31 +143,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   /// Pick an image from gallery
   Future<void> _getFromGallery() async {
-    XFile? pickedFile = await picker.pickImage(
+    File? pickedFile = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    await getLostData();
+    //await getLostData();
     if (pickedFile != null) {
       await _cropImage(pickedFile.path);
     }
   }
 
   /// Function to prevent destruction of main activity on android
-  Future<void> getLostData() async {
-    final LostDataResponse response = await picker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.files != null) {
-      for (XFile file in response.files!) {
-        setState(() {
-          imageFile = File(file.path);
-        });
-      }
-    }
-  }
+  // Future<void> getLostData() async {
+  //   final LostDataResponse response = await picker.retrieveLostData();
+  //   if (response.isEmpty) {
+  //     return;
+  //   }
+  //   if (response.files != null) {
+  //     for (XFile file in response.files!) {
+  //       setState(() {
+  //         imageFile = File(file.path);
+  //       });
+  //     }
+  //   }
+  // }
 
   /// Crop the picked image
   Future<void> _cropImage(filePath) async {
@@ -177,7 +177,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       maxHeight: 1080,
       aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
     );
-    await getLostData();
+    //await getLostData();
     if (croppedImage != null) {
       imageFile = croppedImage;
       setState(() {});

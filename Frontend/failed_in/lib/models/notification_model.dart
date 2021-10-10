@@ -35,7 +35,7 @@ class AppNotification {
       postId: data['postId']['_id'],
       postTitle: data['postId']['title'],
       senderId: data['senderId']['username'],
-      receiverId: data['receiverId']['_id'],
+      receiverId: data['receiverId'],
       viewed: data['viewed'],
       type: 'AppNotificationType.' + data['type'],
       time: data['createdAt'],
