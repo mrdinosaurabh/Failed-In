@@ -1,5 +1,6 @@
 const Post = require("../models/postModel");
 const Comment = require("../models/commentModel");
+const Notification = require("../models/notificationModel");
 const Like = require("../models/likeModel");
 const AppError = require("../utilities/appError");
 const catchAsync = require('./../utilities/catchAsync');
@@ -82,6 +83,7 @@ exports.deleteAPost = catchAsync(async(req, res, next) => {
     if (!post) {
         return next(new AppError('Post not found!', 404));
     }
+    await Notification.deleteMany({ postId: post._id });
     await Comment.deleteMany({ postId: post._id });
     await post.deleteOne();
     res.status(200).json({
