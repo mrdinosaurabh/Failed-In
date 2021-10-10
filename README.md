@@ -1,6 +1,5 @@
 <h1 align="center">Failed-In</h1>
 <h4 align="center">Flaunt Your Failures !!</h4>
-<p align="center"><img alt="pic" height="450px" width="300px"  src="https://user-images.githubusercontent.com/59930598/136701189-5226c8f0-d4f8-4810-8831-200376241c6b.gif"/></p>
 
 <hr>
 
@@ -58,17 +57,17 @@ This made us realize that there's a need for a platform where people can share t
 
 
 <div align="left">
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700478-d4ab7dd4-c5a8-4f48-9e5f-4fab5c0c2d67.png"  hspace="30px"/>
-    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700562-dee3b15e-8c3f-4b4a-9770-87d93e8a0ae0.png"  hspace="30px"/>
-    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700614-1b9f5694-3a18-44c3-8bd0-f19408d827d7.png"  hspace="30px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700478-d4ab7dd4-c5a8-4f48-9e5f-4fab5c0c2d67.png"  hspace="35px"/>
+    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700562-dee3b15e-8c3f-4b4a-9770-87d93e8a0ae0.png"  hspace="35px"/>
+    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700614-1b9f5694-3a18-44c3-8bd0-f19408d827d7.png"  hspace="35px"/>
     <br><br>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700653-d1b6cb03-271d-41be-ae75-a12ae14a9e5c.png" hspace="30px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700752-59488b6d-eeb5-48d7-88c4-26b237f3d70e.png" hspace="30px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700760-e4c9baf8-c331-4fcc-84e4-ed740caf9a5f.png"  hspace="30px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700653-d1b6cb03-271d-41be-ae75-a12ae14a9e5c.png" hspace="35px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700752-59488b6d-eeb5-48d7-88c4-26b237f3d70e.png" hspace="35px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700760-e4c9baf8-c331-4fcc-84e4-ed740caf9a5f.png"  hspace="35px"/>
     <br><br>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700911-2da05549-5e3c-41f8-8916-2a85a57b9934.png" hspace="30px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700969-f68a3233-c542-487f-82aa-f9cce2b7114e.png" hspace="30px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136701027-5240791e-9d55-4bb7-8079-db72250f9d95.png"  hspace="30px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700911-2da05549-5e3c-41f8-8916-2a85a57b9934.png" hspace="35px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700969-f68a3233-c542-487f-82aa-f9cce2b7114e.png" hspace="35px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136701027-5240791e-9d55-4bb7-8079-db72250f9d95.png"  hspace="35px"/>
     <br><br><br>
 </div>
 
