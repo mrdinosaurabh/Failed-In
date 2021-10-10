@@ -1,20 +1,46 @@
 import 'dart:convert';
-
-import 'package:failed_in/models/reaction_model.dart';
+import 'package:failed_in/models/report_comment_model.dart';
+import 'package:failed_in/models/report_post_model.dart';
 import 'package:failed_in/utilities/app_error.dart';
 import 'package:failed_in/utilities/server_details.dart';
 import 'package:failed_in/utilities/user_api.dart';
 import 'package:http/http.dart' as http;
 
-class ReactionService {
-  static Future<void> reactToPost(Reaction reaction) async {
-    var uri = Uri.parse(serverUrl + '/posts/${reaction.postId}/like');
+class ReportService {
+  static Future<void> reportToPost(ReportPost report) async {
+    var uri = Uri.parse(serverUrl + '/posts/${report.postId}/report');
     var requestHeaders = {
       'Content-Type': 'application/json',
       'authorization': 'Bearer ${UserApi.instance.token}',
     };
 
-    var requestBody = jsonEncode(reaction.toJson());
+    var requestBody = jsonEncode(report.toJson());
+
+    var response = await http.post(
+      uri,
+      headers: requestHeaders,
+      body: requestBody,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      // TODO: Handle response
+      print('Reported');
+    } else {
+      throw AppError(response.statusCode, response.body);
+    }
+  }
+
+  static Future<void> reportToComment(ReportComment report) async {
+    var uri = Uri.parse(serverUrl +
+        '/posts/${report.postId}/comment/${report.commentId}/report');
+    var requestHeaders = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer ${UserApi.instance.token}',
+    };
+
+    var requestBody = jsonEncode(report.toJson());
 
     var response = await http.post(
       uri,
@@ -24,36 +50,7 @@ class ReactionService {
 
     if (response.statusCode == 200) {
       // TODO: Handle response
-
-    } else {
-      throw AppError(response.statusCode, response.body);
-    }
-  }
-
-  static Future<List<Reaction>> getAllReactions(
-      String postId, String query) async {
-    var uri = Uri.parse(serverUrl + '/posts/$postId/like?$query');
-
-    var requestHeaders = {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ${UserApi.instance.token}',
-    };
-
-    var response = await http.get(
-      uri,
-      headers: requestHeaders,
-    );
-
-    if (response.statusCode == 200) {
-      var responseBody = jsonDecode(response.body);
-
-      print(responseBody);
-
-      List<Reaction> list = responseBody['data']['likes']
-          .map<Reaction>((data) => Reaction.fromJson(data))
-          .toList();
-
-      return list;
+      print('Reported');
     } else {
       throw AppError(response.statusCode, response.body);
     }

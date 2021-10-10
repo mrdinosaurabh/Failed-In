@@ -1,3 +1,4 @@
+import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/components/custom_button.dart';
 import 'package:failed_in/components/custom_text_field.dart';
 import 'package:failed_in/components/loading_screen.dart';
@@ -47,136 +48,141 @@ class _SignupScreenState extends State<SignupScreen> {
     validateData();
 
     if (!isLoading) {
-      return Scaffold(
-        backgroundColor: kColorWhite,
-        body: SafeArea(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 30,
+      return Stack(
+        children: [
+          const AppBackground(),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: OscillatingWidget(
+                              amplitude: 20,
+                              child: SvgPicture.asset(
+                                'assets/svg/signup.svg',
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                      color: kColorPrimaryDark,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 36,
+                                    ),
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Full name',
+                                    controller: nameController,
+                                    maxLines: 1,
+                                    prefixIcon: FontAwesomeIcons.user,
+                                    errorText: nameError,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Choose a username',
+                                    controller: usernameController,
+                                    maxLines: 1,
+                                    prefixIcon: FontAwesomeIcons.at,
+                                    errorText: usernameError,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Email',
+                                    controller: emailController,
+                                    maxLines: 1,
+                                    prefixIcon: FontAwesomeIcons.envelope,
+                                    keyboardType: TextInputType.emailAddress,
+                                    errorText: emailError,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Create a Password',
+                                    controller: passwordController,
+                                    prefixIcon: FontAwesomeIcons.lock,
+                                    maxLines: 1,
+                                    obscureText: !isPasswordVisible,
+                                    suffix: passwordController.text.isNotEmpty
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isPasswordVisible =
+                                                    !isPasswordVisible;
+                                              });
+                                            },
+                                            child: Icon(
+                                              isPasswordVisible
+                                                  ? FontAwesomeIcons.eyeSlash
+                                                  : FontAwesomeIcons.eye,
+                                              color: kColorGrey,
+                                            ),
+                                          )
+                                        : null,
+                                    errorText: passwordError,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomButton(
+                                    text: 'Sign Up',
+                                    color: kColorPrimaryDark,
+                                    textColor: kColorLight,
+                                    onPressed: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      await signupUser();
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                Routes.loginScreen,
+                              );
+                            },
+                            child: const Text(
+                              'Already have an account? Login.',
+                              style: TextStyle(
+                                color: kColorPrimary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: OscillatingWidget(
-                          amplitude: 20,
-                          child: SvgPicture.asset(
-                            'assets/svg/signup.svg',
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  color: kColorBlueDark,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 36,
-                                ),
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Full name',
-                                controller: nameController,
-                                maxLines: 1,
-                                prefixIcon: FontAwesomeIcons.user,
-                                errorText: nameError,
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Choose a username',
-                                controller: usernameController,
-                                maxLines: 1,
-                                prefixIcon: FontAwesomeIcons.at,
-                                errorText: usernameError,
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Email',
-                                controller: emailController,
-                                maxLines: 1,
-                                prefixIcon: FontAwesomeIcons.envelope,
-                                keyboardType: TextInputType.emailAddress,
-                                errorText: emailError,
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Create a Password',
-                                controller: passwordController,
-                                prefixIcon: FontAwesomeIcons.lock,
-                                maxLines: 1,
-                                obscureText: !isPasswordVisible,
-                                suffix: passwordController.text.isNotEmpty
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isPasswordVisible =
-                                                !isPasswordVisible;
-                                          });
-                                        },
-                                        child: Icon(
-                                          isPasswordVisible
-                                              ? FontAwesomeIcons.eyeSlash
-                                              : FontAwesomeIcons.eye,
-                                          color: kColorGrey,
-                                        ),
-                                      )
-                                    : null,
-                                errorText: passwordError,
-                              ),
-                              kSpace30Ver,
-                              CustomButton(
-                                text: 'Sign Up',
-                                color: kColorBlue,
-                                textColor: kColorWhite,
-                                onPressed: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  await signupUser();
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routes.loginScreen,
-                          );
-                        },
-                        child: const Text(
-                          'Already have an account? Login.',
-                          style: TextStyle(
-                            color: kColorBlue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       );
     } else {
       return const LoadingScreen();

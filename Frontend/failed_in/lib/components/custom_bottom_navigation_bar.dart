@@ -15,8 +15,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      elevation: 5,
-      selectedItemColor: kColorBlueDark,
+      elevation: 0,
+      selectedItemColor: kColorPrimaryDark,
       unselectedItemColor: kColorGrey,
       onTap: (int index) {
         onTap(index);
@@ -27,7 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       selectedLabelStyle: const TextStyle(
         fontSize: 12,
       ),
-      backgroundColor: kColorWhite,
+      backgroundColor: Colors.transparent,
       selectedIconTheme: const IconThemeData(
         size: 30,
       ),

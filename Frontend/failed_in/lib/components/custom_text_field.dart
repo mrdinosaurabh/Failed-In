@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
         errorText: errorText,
         label: label,
         labelStyle: const TextStyle(
-          color: kColorBlueDark,
+          color: kColorPrimaryDark,
           fontSize: 20,
         ),
         hintStyle: const TextStyle(
@@ -52,7 +52,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: kColorBlue,
+            color: kColorPrimary,
             width: 1,
           ),
         ),
@@ -83,7 +83,7 @@ class CustomTextField extends StatelessWidget {
         ),
         suffixIcon: suffix,
       ),
-      cursorColor: kColorBlue,
+      cursorColor: kColorPrimary,
       cursorWidth: 1,
     );
   }

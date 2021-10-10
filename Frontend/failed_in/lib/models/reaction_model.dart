@@ -1,15 +1,23 @@
 class Reaction {
   String? id;
   String? postId;
-  String? userId;
+  String? username;
   String? reactionType;
 
   Reaction({
     this.id,
     this.postId,
-    this.userId,
+    this.username,
     this.reactionType = 'Love',
   });
+
+  static Reaction fromJson(data) {
+    return Reaction(
+      reactionType: data['type'],
+      postId: data['postId'],
+      username: data['userId']['username'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {

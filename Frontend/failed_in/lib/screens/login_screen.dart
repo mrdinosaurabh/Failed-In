@@ -1,3 +1,4 @@
+import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/components/custom_button.dart';
 import 'package:failed_in/components/custom_text_field.dart';
 import 'package:failed_in/components/loading_screen.dart';
@@ -37,117 +38,122 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     if (!isLoading) {
-      return Scaffold(
-        backgroundColor: kColorWhite,
-        body: SafeArea(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 30,
+      return Stack(
+        children: [
+          const AppBackground(),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: OscillatingWidget(
+                              amplitude: 20,
+                              child: SvgPicture.asset(
+                                'assets/svg/login.svg',
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      color: kColorPrimaryDark,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 36,
+                                    ),
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Email',
+                                    controller: emailController,
+                                    prefixIcon: FontAwesomeIcons.at,
+                                    keyboardType: TextInputType.emailAddress,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomTextField(
+                                    hintText: 'Password',
+                                    controller: passwordController,
+                                    prefixIcon: FontAwesomeIcons.lock,
+                                    obscureText: !isPasswordVisible,
+                                    maxLines: 1,
+                                    suffix: passwordController.text.isNotEmpty
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isPasswordVisible =
+                                                    !isPasswordVisible;
+                                              });
+                                            },
+                                            child: Icon(
+                                              isPasswordVisible
+                                                  ? FontAwesomeIcons.eyeSlash
+                                                  : FontAwesomeIcons.eye,
+                                              color: kColorGrey,
+                                            ),
+                                          )
+                                        : null,
+                                  ),
+                                  kSpace30Ver,
+                                  CustomButton(
+                                    text: 'Login',
+                                    color: kColorPrimaryDark,
+                                    textColor: kColorLight,
+                                    onPressed: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      await loginUser();
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                Routes.signupScreen,
+                              );
+                            },
+                            child: const Text(
+                              'Don\'t have an account? Register.',
+                              style: TextStyle(
+                                color: kColorPrimary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: OscillatingWidget(
-                          amplitude: 20,
-                          child: SvgPicture.asset(
-                            'assets/svg/login.svg',
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Text(
-                                'Login',
-                                style: TextStyle(
-                                  color: kColorBlueDark,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 36,
-                                ),
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Email',
-                                controller: emailController,
-                                prefixIcon: FontAwesomeIcons.at,
-                                keyboardType: TextInputType.emailAddress,
-                              ),
-                              kSpace30Ver,
-                              CustomTextField(
-                                hintText: 'Password',
-                                controller: passwordController,
-                                prefixIcon: FontAwesomeIcons.lock,
-                                obscureText: !isPasswordVisible,
-                                maxLines: 1,
-                                suffix: passwordController.text.isNotEmpty
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isPasswordVisible =
-                                                !isPasswordVisible;
-                                          });
-                                        },
-                                        child: Icon(
-                                          isPasswordVisible
-                                              ? FontAwesomeIcons.eyeSlash
-                                              : FontAwesomeIcons.eye,
-                                          color: kColorGrey,
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                              kSpace30Ver,
-                              CustomButton(
-                                text: 'Login',
-                                color: kColorBlue,
-                                textColor: kColorWhite,
-                                onPressed: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  await loginUser();
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routes.signupScreen,
-                          );
-                        },
-                        child: const Text(
-                          'Don\'t have an account? Register.',
-                          style: TextStyle(
-                            color: kColorBlue,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       );
     } else {
       return const LoadingScreen();

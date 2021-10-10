@@ -18,4 +18,16 @@ class User {
     this.image,
     this.bio,
   });
+
+  static User fromJson(data) {
+    return User(
+      id: data['_id'],
+      bio: data['bio'],
+      email: data['email'],
+      username: data['username'],
+      image: data['image'],
+      firstName: data['firstName'],
+      lastName: data['lastName'],
+    );
+  }
 }

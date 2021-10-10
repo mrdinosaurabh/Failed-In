@@ -33,8 +33,8 @@ class AlertBox {
           actions: [
             CustomButton(
               text: 'Okay',
-              color: kColorBlue,
-              textColor: kColorWhite,
+              color: kColorPrimary,
+              textColor: kColorLight,
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -72,8 +72,8 @@ class AlertBox {
           actions: [
             CustomButton(
               text: 'Okay',
-              color: kColorBlue,
-              textColor: kColorWhite,
+              color: kColorPrimary,
+              textColor: kColorLight,
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -120,8 +120,8 @@ class AlertBox {
           actions: [
             CustomButton(
               text: 'Cancel',
-              color: kColorBlue,
-              textColor: kColorWhite,
+              color: kColorPrimary,
+              textColor: kColorLight,
               onPressed: () {
                 sure = false;
                 Navigator.pop(context);
@@ -129,8 +129,8 @@ class AlertBox {
             ),
             CustomButton(
               text: 'Yes',
-              color: kColorBlue,
-              textColor: kColorWhite,
+              color: kColorPrimary,
+              textColor: kColorLight,
               onPressed: () {
                 sure = true;
                 Navigator.pop(context);

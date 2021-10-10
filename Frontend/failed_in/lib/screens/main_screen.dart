@@ -1,14 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/components/custom_bottom_navigation_bar.dart';
-import 'package:failed_in/screens/profile_screen.dart';
+import 'package:failed_in/screens/home_screen.dart';
 import 'package:failed_in/screens/upload_post_screen.dart';
 import 'package:failed_in/services/storage_service.dart';
 import 'package:failed_in/utilities/colors.dart';
 import 'package:failed_in/utilities/routes.dart';
 import 'package:failed_in/utilities/user_api.dart';
 import 'package:flutter/material.dart';
+import 'package:failed_in/screens/profile_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -29,24 +31,19 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: kColorWhite,
-        title: const Text(
-          'FailedIn',
-          style: TextStyle(
-            color: kColorBlueDark,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+      backgroundColor: kColorWhite,
+      body: Stack(
+        children: [
+          AppBackground(),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: kBottomNavigationBarHeight,
+            ),
+            child: getCurrentPage(),
           ),
-        ),
-        centerTitle: true,
-        actions: [
-          getActionButton(),
         ],
       ),
-      backgroundColor: kColorWhite,
-      body: getCurrentPage(),
+      extendBody: true,
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (int index) {
@@ -61,11 +58,50 @@ class _MainScreenState extends State<MainScreen> {
   Widget getCurrentPage() {
     switch (_currentIndex) {
       case 0:
-        return const UploadPostScreen();
+        return UploadPostScreen(
+          color: Colors.transparent,
+          title: Text(
+            'FailedIn',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            getActionButton(),
+          ],
+        );
       case 1:
-        return const HomeScreen();
+        return HomeScreen(
+          color: Colors.transparent,
+          title: Text(
+            'FailedIn',
+            style: TextStyle(
+              color: kColorPrimaryDark,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            getActionButton(),
+          ],
+        );
       case 2:
-        return const ProfileScreen();
+        return ProfileScreen(
+          color: Colors.transparent,
+          title: Text(
+            'FailedIn',
+            style: TextStyle(
+              color: kColorPrimaryDark,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            getActionButton(),
+          ],
+        );
     }
     return Container();
   }
@@ -76,8 +112,8 @@ class _MainScreenState extends State<MainScreen> {
         return Container();
       case 1:
         return IconButton(
-          icon: const Icon(FontAwesomeIcons.bell),
-          color: kColorBlueDark,
+          icon: Icon(FontAwesomeIcons.bell),
+          color: kColorPrimaryDark,
           onPressed: () {
             Navigator.pushNamed(context, Routes.notificationScreen);
           },
@@ -86,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
         return PopupMenuButton(
           icon: const Icon(
             Icons.settings_outlined,
-            color: kColorBlueDark,
+            color: kColorPrimaryDark,
           ),
           onSelected: (value) async {
             switch (value) {
@@ -100,11 +136,11 @@ class _MainScreenState extends State<MainScreen> {
           },
           itemBuilder: (BuildContext buildContext) {
             return [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 0,
                 child: Text("Edit profile"),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 1,
                 child: Text("Logout"),
               ),

@@ -7,8 +7,12 @@ import 'package:failed_in/utilities/user_api.dart';
 import 'package:http/http.dart' as http;
 
 class PostService {
-  static Future<List<Post>> getUsersPosts(String query) async {
-    var uri = Uri.parse(serverUrl + '/posts?$query');
+  static Future<List<Post>> getUsersPosts(String query,
+      {bool isRecommended = false}) async {
+    var uri = Uri.parse(serverUrl +
+        '/posts' +
+        (isRecommended ? '/recommended' : '') +
+        '?$query');
 
     var requestHeaders = {
       'Content-Type': 'application/json',

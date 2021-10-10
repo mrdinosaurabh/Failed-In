@@ -1,21 +1,26 @@
 import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/components/custom_app_bar.dart';
 import 'package:failed_in/components/loading_screen.dart';
-import 'package:failed_in/components/notification_card.dart';
-import 'package:failed_in/services/notification_service.dart';
+import 'package:failed_in/components/reaction_card.dart';
+import 'package:failed_in/models/reaction_model.dart';
+import 'package:failed_in/services/reaction_service.dart';
 import 'package:failed_in/utilities/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:failed_in/models/notification_model.dart';
 
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({Key? key}) : super(key: key);
+class ReactionsScreen extends StatefulWidget {
+  const ReactionsScreen({
+    Key? key,
+    required this.postId,
+  }) : super(key: key);
+
+  final String postId;
 
   @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
+  _ReactionsScreenState createState() => _ReactionsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<AppNotification> notifications = [];
+class _ReactionsScreenState extends State<ReactionsScreen> {
+  List<Reaction> reactions = [];
 
   bool isLoading = false;
   bool loadingMoreData = false;
@@ -29,7 +34,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     super.initState();
 
     _controller.addListener(pagination);
-    loadNotifications();
+    loadReactions();
   }
 
   void pagination() {
@@ -37,12 +42,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       if (moreDataPresent) {
         page++;
         if (!loadingMoreData) {
-          loadNotifications();
+          loadReactions();
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("No more notifications!"),
+            content: Text("No more reactions!"),
           ),
         );
       }
@@ -57,16 +62,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: CustomAppBar(
-            title: 'Notifications',
+            title: 'Reactions',
             appBar: AppBar(),
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              notifications = [];
+              reactions = [];
               page = 1;
               moreDataPresent = true;
               loadingMoreData = false;
-              loadNotifications();
+              loadReactions();
             },
             child: buildBody(),
           ),
@@ -84,7 +89,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: notifications.length,
+              itemCount: reactions.length,
               controller: _controller,
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
@@ -93,9 +98,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 return Container(
                   padding: const EdgeInsets.all(15),
                   margin: const EdgeInsets.symmetric(vertical: 0.5),
-                  color: kColorLight,
-                  child: NotificationCard(
-                    notification: notifications[index],
+                  child: ReactionCard(
+                    reaction: reactions[index],
                   ),
                 );
               },
@@ -116,20 +120,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     }
   }
 
-  Future<void> loadNotifications() async {
+  Future<void> loadReactions() async {
     setState(() {
       page == 1 ? isLoading = true : loadingMoreData = true;
     });
 
-    List<AppNotification> notificationList =
-        await await NotificationService.getAllNotifications(
+    List<Reaction> reactionList = await ReactionService.getAllReactions(
+      widget.postId,
       'sort=-createdAt&limit=20&page=$page',
     );
 
-    if (notificationList.isEmpty) {
+    if (reactionList.isEmpty) {
       moreDataPresent = false;
     } else {
-      notifications.addAll(notificationList);
+      reactions.addAll(reactionList);
     }
 
     setState(() {

@@ -1,9 +1,12 @@
 import 'package:failed_in/screens/edit_profile_screen.dart';
+import 'package:failed_in/screens/home_screen.dart';
 import 'package:failed_in/screens/login_screen.dart';
-import 'package:failed_in/screens/main_screen.dart';
 import 'package:failed_in/screens/notifications_screen.dart';
+import 'package:failed_in/screens/posts_screen.dart';
+import 'package:failed_in/screens/search_screen.dart';
 import 'package:failed_in/screens/signup_screen.dart';
 import 'package:failed_in/screens/splash_screen.dart';
+import 'package:failed_in/screens/main_screen.dart';
 import 'package:failed_in/services/storage_service.dart';
 import 'package:failed_in/utilities/routes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Failed In',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         fontFamily: 'CarosSoft',
       ),
       debugShowCheckedModeBanner: false,
@@ -32,9 +35,11 @@ class MyApp extends StatelessWidget {
         Routes.splashScreen: (context) => const SplashScreen(),
         Routes.loginScreen: (context) => const LoginScreen(),
         Routes.signupScreen: (context) => const SignupScreen(),
+        Routes.homeScreen: (context) => const HomeScreen(),
         Routes.mainScreen: (context) => const MainScreen(),
         Routes.notificationScreen: (context) => const NotificationsScreen(),
         Routes.editProfileScreen: (context) => const EditProfileScreen(),
+        Routes.searchScreen: (context) => const SearchScreen(),
       },
     );
   }

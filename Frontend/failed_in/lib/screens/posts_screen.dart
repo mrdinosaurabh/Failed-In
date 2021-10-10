@@ -1,52 +1,43 @@
 import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/components/custom_app_bar.dart';
 import 'package:failed_in/components/loading_screen.dart';
-import 'package:failed_in/components/notification_card.dart';
-import 'package:failed_in/services/notification_service.dart';
+import 'package:failed_in/components/post_card.dart';
+import 'package:failed_in/models/post_model.dart';
+import 'package:failed_in/services/post_service.dart';
 import 'package:failed_in/utilities/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:failed_in/models/notification_model.dart';
 
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({Key? key}) : super(key: key);
+class PostsScreen extends StatefulWidget {
+  const PostsScreen({
+    Key? key,
+    required this.query,
+    this.isRecommended = false,
+  }) : super(key: key);
+
+  final String query;
+  final bool isRecommended;
 
   @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
+  _PostsScreenState createState() => _PostsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<AppNotification> notifications = [];
+class _PostsScreenState extends State<PostsScreen> {
+  List<Post> posts = [];
 
-  bool isLoading = false;
-  bool loadingMoreData = false;
-  bool moreDataPresent = true;
   int page = 1;
+  bool isLoading = false;
+  bool moreDataPresent = true;
+  bool loadingMoreData = false;
 
   final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-
     _controller.addListener(pagination);
-    loadNotifications();
-  }
 
-  void pagination() {
-    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-      if (moreDataPresent) {
-        page++;
-        if (!loadingMoreData) {
-          loadNotifications();
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("No more notifications!"),
-          ),
-        );
-      }
-    }
+    loadUserPosts();
   }
 
   @override
@@ -57,22 +48,39 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: CustomAppBar(
-            title: 'Notifications',
+            title: 'Posts',
             appBar: AppBar(),
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              notifications = [];
+              posts = [];
               page = 1;
               moreDataPresent = true;
               loadingMoreData = false;
-              loadNotifications();
+              loadUserPosts();
             },
             child: buildBody(),
           ),
         ),
       ],
     );
+  }
+
+  void pagination() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      if (moreDataPresent) {
+        page++;
+        if (!loadingMoreData) {
+          loadUserPosts();
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No more posts!"),
+          ),
+        );
+      }
+    }
   }
 
   Widget buildBody() {
@@ -84,18 +92,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: notifications.length,
+              itemCount: posts.length,
               controller: _controller,
-              physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),
-              ),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.all(15),
-                  margin: const EdgeInsets.symmetric(vertical: 0.5),
-                  color: kColorLight,
-                  child: NotificationCard(
-                    notification: notifications[index],
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: PostCard(
+                    post: posts[index],
                   ),
                 );
               },
@@ -116,20 +121,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     }
   }
 
-  Future<void> loadNotifications() async {
+  Future<void> loadUserPosts() async {
     setState(() {
       page == 1 ? isLoading = true : loadingMoreData = true;
     });
 
-    List<AppNotification> notificationList =
-        await await NotificationService.getAllNotifications(
-      'sort=-createdAt&limit=20&page=$page',
+    List<Post> postList = await PostService.getUsersPosts(
+      'limit=5&page=$page&${widget.query}',
+      isRecommended: widget.isRecommended,
     );
 
-    if (notificationList.isEmpty) {
+    if (postList.isEmpty) {
       moreDataPresent = false;
     } else {
-      notifications.addAll(notificationList);
+      posts.addAll(postList);
     }
 
     setState(() {

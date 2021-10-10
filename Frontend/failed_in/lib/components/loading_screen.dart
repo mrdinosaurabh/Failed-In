@@ -1,3 +1,4 @@
+import 'package:failed_in/components/app_background.dart';
 import 'package:failed_in/utilities/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +10,16 @@ class LoadingScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: kColorWhite,
-      child: const Center(
-        child: CircularProgressIndicator(
-          color: kColorBlue,
-        ),
+      color: kColorLight,
+      child: Stack(
+        children: const [
+          AppBackground(),
+          Center(
+            child: CircularProgressIndicator(
+              color: kColorPrimary,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorBlue,
+      backgroundColor: kColorPrimary,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -35,12 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.w800,
                 fontSize: 24,
-                color: kColorWhite,
+                color: kColorLight,
               ),
             ),
             kSpace50Ver,
             CircularProgressIndicator(
-              color: kColorWhite,
+              color: kColorLight,
             ),
           ],
         ),

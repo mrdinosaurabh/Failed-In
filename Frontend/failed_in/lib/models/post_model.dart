@@ -11,6 +11,7 @@ class Post {
   int? likeCount;
   int? commentsCount;
   String? postedAt;
+  String? likeStatus;
 
   Post({
     this.id,
@@ -25,6 +26,7 @@ class Post {
     this.likeCount = 0,
     this.postedAt,
     this.commentsCount = 0,
+    this.likeStatus = 'None',
   });
 
   // TODO: Update this
@@ -41,6 +43,7 @@ class Post {
       userImage: data['userId']['image'],
       likeCount: data['likeCount'],
       commentsCount: data['commentCount'],
+      likeStatus: data['likeType'],
       tags: List.generate(
         data['tags'].length,
         (index) => data['tags'][index]['name'],
