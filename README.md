@@ -58,17 +58,17 @@ So we have now decided to take matters in our own hands and are creating Failed-
 
 
 <div align="left">
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700478-d4ab7dd4-c5a8-4f48-9e5f-4fab5c0c2d67.png"  hspace="27px"/>
-    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700562-dee3b15e-8c3f-4b4a-9770-87d93e8a0ae0.png"  hspace="27px"/>
-    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700614-1b9f5694-3a18-44c3-8bd0-f19408d827d7.png"  hspace="27px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700478-d4ab7dd4-c5a8-4f48-9e5f-4fab5c0c2d67.png"  hspace="20px"/>
+    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700562-dee3b15e-8c3f-4b4a-9770-87d93e8a0ae0.png"  hspace="20px"/>
+    <img height="500px" width="250px"src="https://user-images.githubusercontent.com/59930598/136700614-1b9f5694-3a18-44c3-8bd0-f19408d827d7.png"  hspace="20px"/>
     <br><br>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700653-d1b6cb03-271d-41be-ae75-a12ae14a9e5c.png" hspace="27px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700752-59488b6d-eeb5-48d7-88c4-26b237f3d70e.png" hspace="27px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700760-e4c9baf8-c331-4fcc-84e4-ed740caf9a5f.png"  hspace="27px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700653-d1b6cb03-271d-41be-ae75-a12ae14a9e5c.png" hspace="20px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700752-59488b6d-eeb5-48d7-88c4-26b237f3d70e.png" hspace="20px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700760-e4c9baf8-c331-4fcc-84e4-ed740caf9a5f.png"  hspace="20px"/>
     <br><br>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700911-2da05549-5e3c-41f8-8916-2a85a57b9934.png" hspace="27px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700969-f68a3233-c542-487f-82aa-f9cce2b7114e.png" hspace="27px"/>
-    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136754956-09fee6d4-f9ed-4f24-8c6d-b5464a502006.png"  hspace="27px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700911-2da05549-5e3c-41f8-8916-2a85a57b9934.png" hspace="20px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136700969-f68a3233-c542-487f-82aa-f9cce2b7114e.png" hspace="20px"/>
+    <img height="500px" width="250px" src="https://user-images.githubusercontent.com/59930598/136754956-09fee6d4-f9ed-4f24-8c6d-b5464a502006.png"  hspace="20px"/>
     <br><br><br>
 </div>
 
